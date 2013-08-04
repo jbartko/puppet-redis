@@ -1,0 +1,4 @@
+#
+class redis::config {
+
+}
