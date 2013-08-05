@@ -1,16 +1,8 @@
 Puppet module for Redis.
 
-[![Build Status](https://travis-ci.org/jbartko/puppet-redis-new.png?branch=develop)](https://travis-ci.org/jbartko/puppet-redis-new)
-
-License
--------
-
-
-Contact
--------
-
+[![Build Status](https://travis-ci.org/jbartko/puppet-redis-new.png?branch=master)](https://travis-ci.org/jbartko/puppet-redis-new)
 
 Support
 -------
 
-Please log tickets and issues at our [Projects site](http://projects.example.com)
+Please log tickets and issues at this [GitHub repo](https://github.com/jbartko/puppet-redis-new/issues).
