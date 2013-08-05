@@ -1,0 +1,12 @@
+notifications:
+  email:
+    - jbartko@txstate.edu  
+env:
+  - PUPPET_VERSION=3.2.3
+  - PUPPET_VERSION=2.7.22
+rvm:
+  - 1.8.7
+  - 1.9.3
+  - 2.0.0
+
+# vim: set ts=2 sw=2 et ft=yaml:
