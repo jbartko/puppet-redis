@@ -1,6 +1,6 @@
-redis
-
 Puppet module for Redis.
+
+[![Build Status](https://travis-ci.org/jbartko/puppet-redis-new.png?branch=develop)](https://travis-ci.org/jbartko/puppet-redis-new)
 
 License
 -------
