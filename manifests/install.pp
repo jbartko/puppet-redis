@@ -12,7 +12,7 @@ class redis::install {
   vcsrepo { "/home/${redis::user}/source":
     ensure   => present,
     provider => 'git',
-    source   => 'git@github.com:antirez/redis.git',
+    source   => 'https://github.com/antirez/redis.git',
     revision => '2.6',
   }
 }
