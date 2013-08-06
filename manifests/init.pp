@@ -37,6 +37,7 @@
 #
 class redis(
   $user = $redis::params::user
+  $version = $redis::params::version
 ) inherits redis::params {
   class{'redis::install': } ->
   class{'redis::config': } ~>

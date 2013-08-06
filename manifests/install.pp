@@ -11,9 +11,17 @@ class redis::install {
 
   vcsrepo { "/home/${redis::user}/source":
     ensure   => present,
+    notify   => Exec['make'],
     provider => 'git',
     source   => 'https://github.com/antirez/redis.git',
-    revision => '2.6',
+    revision => $redis::version,
+  }
+
+  exec { 'make':
+    cwd         => "/home/${redis::user}/source",
+    notify      => Exec['make install'],
+    path        => [ '/bin', '/usr/bin' ],
+    refreshonly => true,
   }
 }
 
