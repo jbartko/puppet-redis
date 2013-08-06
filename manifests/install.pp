@@ -9,12 +9,11 @@ class redis::install {
 
   include git
 
-  vcsrepo { "/home/${redis::user}/redis":
+  vcsrepo { "/home/${redis::user}/source":
     ensure   => present,
     provider => 'git',
     source   => 'git@github.com:antirez/redis.git',
     revision => '2.6',
-    user     => $redis::user,
   }
 }
 
