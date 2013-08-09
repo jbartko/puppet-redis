@@ -10,7 +10,7 @@ class redis::install {
   include git
 
   vcsrepo { 'source':
-    ensure   => present,
+    ensure   => latest,
     path     => "/home/${redis::user}/source",
     notify   => Exec['make'],
     provider => 'git',
