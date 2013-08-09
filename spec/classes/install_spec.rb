@@ -8,6 +8,10 @@ describe 'redis::install', :type => :class do
       :osfamily => 'RedHat',
       :ipaddress => '127.0.0.1',
     } } 
+    it {
+      should include_class('git')
+      should contain_vcsrepo('source')
+    }
   end
 end
 

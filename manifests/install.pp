@@ -9,8 +9,9 @@ class redis::install {
 
   include git
 
-  vcsrepo { "/home/${redis::user}/source":
+  vcsrepo { 'source':
     ensure   => present,
+    path     => "/home/${redis::user}/source",
     notify   => Exec['make'],
     provider => 'git',
     source   => 'https://github.com/antirez/redis.git',

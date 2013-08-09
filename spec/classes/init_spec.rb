@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'redis', :type => :class do
   context 'defaults' do
-    let(:params) { {  } }
+    let(:params) { { :user => 'redis' } }
     it 'default' do
       should include_class('redis::install')
       should include_class('redis::config')
