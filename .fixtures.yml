@@ -1,0 +1,8 @@
+fixtures:
+  repositories:
+    git: https://github.com/puppetlabs/puppetlabs-git.git
+    vcsrepo: https://github.com/puppetlabs/puppetlabs-vcsrepo.git
+  symlinks:
+    redis: "#{source_dir}"
+
+# vim: set ts=2 sw=2 et ft=yaml:

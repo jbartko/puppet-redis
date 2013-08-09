@@ -35,7 +35,10 @@
 #
 # Copyright 2013 Your name here, unless otherwise noted.
 #
-class redis() inherits redis::params {
+class redis(
+  $user    = $redis::params::user,
+  $version = $redis::params::version
+) inherits redis::params {
   class{'redis::install': } ->
   class{'redis::config': } ~>
   class{'redis::service': } ->
