@@ -8,3 +8,4 @@ description 'This module deploys and configures the Redis data structure server'
 
 dependency 'puppetlabs/git',     '>= 0.0.2'
 dependency 'puppetlabs/vcsrepo', '>= 0.1.2'
+dependency 'puppetlabs/concat',	 '>= 1.0.0'
