@@ -12,12 +12,13 @@ class redis::config {
   }
 
   if $redis::default_instance {
-    file { '/etc/redis.d/default.conf':
-      ensure  => present,
-      content => template('redis/default.conf.erb'),
-    }
+#    file { '/etc/redis.d/default.conf':
+#      ensure  => present,
+#      content => template('redis/default.conf.erb'),
+#    }
+    redis::instance { 'default': }
   } else {
-    file { '/etc/redis.d/default.conf': ensure => absent }
+#    file { '/etc/redis.d/default.conf': ensure => absent }
   }
 }
 
