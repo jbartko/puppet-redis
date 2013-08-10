@@ -8,6 +8,6 @@ env:
 matrix:
   exclude:
     - rvm: 2.0.0
-    - env: PUPPET_VERSION=2.7.22
+      env: PUPPET_VERSION=2.7.22
 
 # vim: set ts=2 sw=2 et ft=yaml:
