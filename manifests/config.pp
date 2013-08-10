@@ -11,8 +11,8 @@ class redis::config {
 #    content => template('redis/redis.conf.erb'),
 #  }
 
-  concat { '/etc/redis.conf': }
-  Concat::Fragment <<| target == [ $::fqdn, '/etc/redis.conf' ] |>>
+  concat { $redis::file_conf: }
+  Concat::Fragment <<| target == "${::fqdn}_${redis::file_conf}" |>>
 
   if $redis::default_instance {
     redis::instance { 'default': }

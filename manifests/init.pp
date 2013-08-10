@@ -37,6 +37,8 @@
 #
 class redis(
   $default_instance = $redis::params::default_instance,
+  $dir_conf         = $redis::params::dir_conf,
+  $file_conf        = $redis::params::file_conf,
   $user             = $redis::params::user,
   $version          = $redis::params::version
 ) inherits redis::params {

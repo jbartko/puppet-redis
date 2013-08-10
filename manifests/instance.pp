@@ -10,7 +10,7 @@ define redis::instance (
   }
 
   @@concat::fragment { "instance_${port}":
-    target  => [ $::fqdn, '/etc/redis.conf' ],
+    target  => "${::fqdn}_${redis::file_conf}",
     content => "include /etc/redis.d/${port}.conf\n",
   }
 
