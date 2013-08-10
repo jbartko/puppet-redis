@@ -7,6 +7,10 @@ class redis::install {
     system     => true,
   }
 
+  file { '/etc/redis.d':
+    ensure => directory,
+  }
+
   include git
 
   vcsrepo { 'source':
