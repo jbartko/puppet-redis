@@ -12,7 +12,7 @@ class redis::config {
 #  }
 
   concat { '/etc/redis.conf': }
-  Concat::Fragment <<| target == '/etc/redis.conf' |>>
+  Concat::Fragment <<| target == [ $::fqdn, '/etc/redis.conf' ] |>>
 
   if $redis::default_instance {
     redis::instance { 'default': }

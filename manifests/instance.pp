@@ -1,15 +1,17 @@
 #
-define redis::instance {
+define redis::instance (
+  $port = $redis::instance::params::port,
+) {
   if ! defined(Class['redis']) { fail('You must include Class[\'redis\']!') }
 
-  file { "/etc/redis.d/${name}.conf":
+  file { "/etc/redis.d/${port}.conf":
     ensure  => present,
-    content => template('redis/default.conf.erb'),
+    content => template('redis/instance.conf.erb'),
   }
 
-  @@concat::fragment { "instance_${name}":
-    target  => '/etc/redis.conf',
-    content => "include /etc/redis.d/${name}.conf\n",
+  @@concat::fragment { "instance_${port}":
+    target  => [ $::fqdn, '/etc/redis.conf' ],
+    content => "include /etc/redis.d/${port}.conf\n",
   }
 
 }
