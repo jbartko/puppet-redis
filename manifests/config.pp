@@ -8,12 +8,12 @@ class redis::config {
 
   file { '/etc/redis.conf':
     ensure  => present,
-    content => template('redis/redis.conf'),
+    content => template('redis/redis.conf.erb'),
   }
 
   file { '/etc/redis.d/default.conf':
     ensure  => present,
-    content => template('redis/default.conf'),
+    content => template('redis/default.conf.erb'),
   }
 }
 
