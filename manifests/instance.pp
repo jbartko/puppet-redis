@@ -1,7 +1,5 @@
 #
-class redis::instance(
-
-) inherits redis::instance::params {
+define redis::instance {
   if ! defined(Class['redis']) { fail('You must include Class[\'redis\']!') }
 
   file { "/etc/redis.d/${name}.conf":
