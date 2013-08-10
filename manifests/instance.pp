@@ -1,8 +1,7 @@
 #
 define redis::instance (
-  $port = $redis::instance::params::port,
+  $port = '6379',
 ) {
-  include redis::instance::params
   if ! defined(Class['redis']) { fail('You must include Class[\'redis\']!') }
 
   file { "/etc/redis.d/${port}.conf":
