@@ -55,12 +55,15 @@ function do_stop() {
         for PIDFILE in $(grep ^pidfile ${INSTANCE_CONF} | awk '{print $2}'); do
             if [ -f "${PIDFILE}" ]; then
                 PID=$(cat ${PIDFILE})
-                echo "stopping instance ${INSTANCE}"
+                echo -n "stopping instance ${INSTANCE}... "
                 ${REDIS_CLI} -p ${INSTANCE} SHUTDOWN
                 while [ -x /proc/${PID} ]; do
-                    echo "Wating for redis (pid ${PID} port ${INSTANCE}) to exit"
+                    echo -ne "\nWating for redis (pid ${PID} port ${INSTANCE}) to exit"
+                    warning
                     sleep 1
                 done
+                success
+                echo
             else
                 echo "instance ${INSTANCE} pidfile not present in ${PIDFILE%/*}"
             fi
@@ -78,6 +81,7 @@ function do_status() {
     if [ ! -e $PIDFILE ]; then
         echo "instance ${1} stopped"
     else
+        success
         echo -n "instance ${1} pid $(cat ${PIDFILE}): "
         $REDIS_CLI -p ${1} info | grep 'uptime_in_seconds'
     fi
