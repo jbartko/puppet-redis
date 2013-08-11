@@ -7,8 +7,17 @@ class redis::install {
     system     => true,
   }
 
-  file { '/etc/redis.d':
+  file {[ $redis::dir_conf, $redis::dir_lib, $redis::dir_log, $redis::dir_run ]:
     ensure => directory,
+    owner  => 'root',
+    group  => 'redis',
+    mode   => '0660'
+  }
+
+  file { $redis::file_init:
+    ensure  => present,
+    mode    => '0755',
+    content => template('redis/sysv_init.erb'),
   }
 
   include git
