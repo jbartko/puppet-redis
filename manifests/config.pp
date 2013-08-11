@@ -8,11 +8,11 @@ class redis::config {
 
   concat { $redis::file_conf: }
   concat::fragment { 'redis conf header':
-    target => $redis::file_conf,
+    target  => $redis::file_conf,
     content => "Managed by puppet\n\n",
     order   => '01',
   }
-  Concat::Fragment <<| target == $redis::file_conf |>>
+  Concat::Fragment <| target == $redis::file_conf |>
 
   if $redis::default_instance { redis::instance { 'default': } }
 }
