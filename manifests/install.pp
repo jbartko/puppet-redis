@@ -1,5 +1,10 @@
 #
 class redis::install {
+  group { $redis::user:
+    ensure => present,
+    system => true,
+  }
+
   user { $redis::user:
     ensure     => present,
     managehome => true,
@@ -10,7 +15,7 @@ class redis::install {
   file {[ $redis::dir_conf, $redis::dir_lib, $redis::dir_log, $redis::dir_run ]:
     ensure => directory,
     owner  => 'root',
-    group  => 'redis',
+    group  => $redis::user,
     mode   => '0660'
   }
 
