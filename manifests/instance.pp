@@ -9,11 +9,10 @@ define redis::instance (
     content => template('redis/instance.conf.erb'),
   }
 
-  @@concat::fragment { "instance_${port}":
-    target  => "${::fqdn}_${redis::file_conf}",
-    content => "include /etc/redis.d/${port}.conf\n",
+  @concat::fragment { "redis_include_${port}":
+    target  => $redis::file_conf,
+    content => "include /etc/redis.d/${port}.conf\t\t# ${name}\n",
   }
-
 }
 
 # vim: set sw=2 ts=2 et ft=puppet:
