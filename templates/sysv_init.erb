@@ -1,0 +1,149 @@
+#!/bin/bash
+
+# redis data structure server sysv init script
+#
+# chkconfig: 2345 80 20
+# description: manage multiple instances of the redis data structure server
+
+## BEGIN INIT INFO
+# Provides:          redis
+# Required-Start:    $network
+# Required-Stop:     
+# Default-Start:     2 3 4 5
+# Default-Stop:      S 0 1 6
+# Short-Description: starts redis
+# Description:       manage multiple instances of the redis data structure
+#                    server
+### END INIT INFO
+
+[ -f /etc/init.d/functions ] && . /etc/init.d/functions
+
+CONF_DIR='/etc/redis.d'
+BIN_PREFIX='/usr/local/bin'
+REDIS_CLI="${BIN_PREFIX}/redis-cli"
+REDIS_SERVER="${BIN_PREFIX}/redis-server"
+REDIS_USER="<%= scope.lookupvar('redis::user') -%>"
+
+INSTANCE_LIST=$(ls ${CONF_DIR} | grep 'conf' | sed 's/\.conf$//')
+[ -z "$INSTANCE_LIST" ] && failure && echo "no redis instances in ${CONF_DIR}"\
+    >&2 && exit 1
+
+function do_start() {
+    for INSTANCE in $INSTANCE_LIST; do
+        INSTANCE_CONF=${CONF_DIR}/${INSTANCE}.conf
+        if [ ! -e ${INSTANCE_CONF} ]; then
+            echo "instance ${INSTANCE} does not exist"
+            continue
+        fi
+        for PIDFILE in $(grep ^pidfile ${INSTANCE_CONF} | awk '{print $2}'); do
+            if [ -f "${PIDFILE}" ]; then
+                echo "${PIDFILE} exists"
+            else
+                echo -n "starting instance ${INSTANCE} "
+                daemon --user ${REDIS_USER} ${REDIS_SERVER} ${INSTANCE_CONF}
+                echo
+            fi
+        done
+    done
+}
+
+function do_stop() {
+    for INSTANCE in $INSTANCE_LIST; do
+        INSTANCE_CONF=${CONF_DIR}/${INSTANCE}.conf
+        if [ ! -e ${INSTANCE_CONF} ]; then
+            echo "instance ${INSTANCE} does not exist"
+            continue
+        fi
+        for PIDFILE in $(grep ^pidfile ${INSTANCE_CONF} | awk '{print $2}'); do
+            if [ -f "${PIDFILE}" ]; then
+                PID=$(cat ${PIDFILE})
+                echo -n "stopping instance ${INSTANCE}... "
+                ${REDIS_CLI} -p ${INSTANCE} SHUTDOWN
+                while [ -x /proc/${PID} ]; do
+                    echo -ne "\nWating for redis (pid ${PID} port ${INSTANCE}) to exit"
+                    warning
+                    sleep 1
+                done
+                success
+                echo
+            else
+                echo "instance ${INSTANCE} pidfile not present in ${PIDFILE%/*}"
+            fi
+        done
+    done
+}
+
+function do_status() {
+    local RETVAL=0
+    if [ ! -e ${CONF_DIR}/${1}.conf ]; then
+        echo "instance ${1} does not exist"
+        return 5
+    fi
+    PIDFILE=$(grep ^pidfile ${CONF_DIR}/${1}.conf | awk '{print $2}')
+    
+    if [ ! -e $PIDFILE ]; then
+        echo "instance ${1} stopped"
+        RETVAL=1
+    else
+        success
+        echo -n "instance ${1} pid $(cat ${PIDFILE}): "
+        $REDIS_CLI -p ${1} info | grep 'uptime_in_seconds'
+        RETVAL=$?
+    fi
+    return $RETVAL
+}
+
+case "$1" in
+    start)
+        shift 1
+        if [ "$*" ]; then
+            case "$*" in
+                [aA][lL][lL]);;
+                *) INSTANCE_LIST="$@" ;;
+            esac
+        fi
+        do_start $INSTANCE_LIST
+        ;;
+    stop)
+        shift 1
+        if [ "$*" ]; then
+            case "$*" in
+                [aA][lL][lL]);;
+                *) INSTANCE_LIST="$@" ;;
+            esac
+        fi
+        do_stop $INSTANCE_LIST
+        ;;
+    restart)
+        shift 1
+        if [ "$*" ];then
+            case "$*" in
+                [aA][lL][lL]);;
+                *) INSTANCE_LIST="$@" ;;
+            esac
+        fi
+        $0 stop $@
+        sleep 2
+        $0 start $@
+        RETVAL=$?
+        ;;
+    status)
+        shift 1
+        if [ "x$*" != "x" ]; then INSTANCE_LIST="$@"; fi
+
+        RETVAL=0
+        for INSTANCE in ${INSTANCE_LIST}; do
+            do_status ${INSTANCE}
+            RETVAL=$((RETVAL + $?))
+        done
+        ;;
+    *)
+        echo "Usage: /etc/init.d/redis {start|stop|restart|status} \
+[redis instance|all]" >&2
+        exit 1
+        ;;
+esac
+
+exit $RETVAL
+
+# vim: set ts=4 sw=4 et syn=sh:

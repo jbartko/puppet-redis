@@ -36,8 +36,15 @@
 # Copyright 2013 Your name here, unless otherwise noted.
 #
 class redis(
-  $user    = $redis::params::user,
-  $version = $redis::params::version
+  $default_instance = $redis::params::default_instance,
+  $dir_conf         = $redis::params::dir_conf,
+  $dir_lib          = $redis::params::dir_lib,
+  $dir_log          = $redis::params::dir_log,
+  $dir_run          = $redis::params::dir_run,
+  $file_conf        = $redis::params::file_conf,
+  $file_init        = $redis::params::file_init,
+  $user             = $redis::params::user,
+  $version          = $redis::params::version
 ) inherits redis::params {
   class{'redis::install': } ->
   class{'redis::config': } ~>
