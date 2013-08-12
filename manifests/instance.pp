@@ -1,6 +1,12 @@
 #
 define redis::instance (
-  $port = '6379',
+  $port     = '6379',
+  $conf     = "${redis::dir_conf}/${port}.conf",
+  $conf_dir = $redis::dir_conf,
+  $lib_dir  = $redis::dir_lib,
+  $db_file  = "${redis::dir_lib}/${port}.rdb",
+  $log_file = "${redis::dir_log}/${port}.log",
+  $pid_file = "${redis::dir_run}/${port}.pid",
 ) {
   if ! defined(Class['redis']) { fail('You must include Class[\'redis\']!') }
 
