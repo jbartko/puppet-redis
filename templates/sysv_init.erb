@@ -22,11 +22,11 @@ CONF_DIR='/etc/redis.d'
 BIN_PREFIX='/usr/local/bin'
 REDIS_CLI="${BIN_PREFIX}/redis-cli"
 REDIS_SERVER="${BIN_PREFIX}/redis-server"
-REDIS_USER="redis"
+REDIS_USER="<%= scope.lookupvar('redis::user') -%>"
 
 INSTANCE_LIST=$(ls ${CONF_DIR} | grep 'conf' | sed 's/\.conf$//')
-[ -z $INSTANCE_LIST ] && failure && echo "no redis instances in ${CONF_DIR}"\
-    && exit 1
+[ -z "$INSTANCE_LIST" ] && failure && echo "no redis instances in ${CONF_DIR}"\
+    >&2 && exit 1
 
 function do_start() {
     for INSTANCE in $INSTANCE_LIST; do
