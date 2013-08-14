@@ -1,5 +1,10 @@
 #
 class redis::config {
+  file { '/etc/security/limits.d/redis.conf':
+    ensure  => present,
+    content => template('redis/limits.erb'),
+  }
+
   exec { 'make install':
     cwd         => "/home/${redis::user}/source",
     path        => [ '/bin', '/usr/bin' ],
