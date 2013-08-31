@@ -42,6 +42,13 @@ class redis::install {
     path        => [ '/bin', '/usr/bin' ],
     refreshonly => true,
   }
+
+  exec { 'make install':
+    command     => 'make install && service redis restart',
+    cwd         => "/home/${redis::user}/source",
+    path        => [ '/bin', '/usr/bin', '/sbin' ],
+    refreshonly => true,
+  }
 }
 
 # vim: set ts=2 sw=2 et ft=puppet:

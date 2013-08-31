@@ -5,12 +5,6 @@ class redis::config {
     content => template('redis/limits.erb'),
   }
 
-  exec { 'make install':
-    cwd         => "/home/${redis::user}/source",
-    path        => [ '/bin', '/usr/bin' ],
-    refreshonly => true,
-  }
-
   if $redis::default_instance { @redis::instance { 'default': } }
 
   Redis::Instance <||>
