@@ -1,5 +1,5 @@
 name 'jbartko-redis'
-version '0.0.2'
+version '0.0.3'
 source 'https://github.com/jbartko/puppet-redis'
 author 'John Bartko <jbartko@txstate.edu>'
 license 'Apache License, Version 2.0'
