@@ -8,7 +8,7 @@ class redis::params {
   $file_conf        = '/etc/redis.conf'
   $file_init        = '/etc/init.d/redis'
   $user             = 'redis'
-  $version          = '2.6'
+  $version          = '2.8'
 }
 
 # vim: set ts=2 sw=2 et ft=puppet:

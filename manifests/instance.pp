@@ -5,7 +5,7 @@ define redis::instance (
   $conf_dir = $redis::dir_conf
   $conf     = "${conf_dir}/${port}.conf"
   $lib_dir  = $redis::dir_lib
-  $db_file  = "${lib_dir}/${port}.rdb"
+  $db_file  = "${port}.rdb"
   $log_file = "${redis::dir_log}/${port}.log"
   $pid_file = "${redis::dir_run}/${port}.pid"
 
